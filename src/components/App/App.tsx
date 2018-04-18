@@ -1,6 +1,8 @@
 import * as React from 'react';
 import './App.css';
 import { UserOptions } from '../UserOptions/UserOptions';
+import { BookList } from '../BookList/BookList';
+import { booksStore } from '../../stores/BooksStore';
 
 const logo = require('../../book-open-outline-filled.svg');
 
@@ -14,7 +16,7 @@ class App extends React.Component {
         </header>
         <main className="AppMain">
           <UserOptions />
-          {/* <BookList /> */}
+          <BookList store={booksStore} />
         </main>
       </div>
     );

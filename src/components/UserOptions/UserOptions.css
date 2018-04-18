@@ -26,4 +26,5 @@
 
 .addBookButton:active {
     background-color: burlywood;
+    background-size: 75%;
 }

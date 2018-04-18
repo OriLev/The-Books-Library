@@ -1,0 +1,31 @@
+.bookDisplay {
+    background: url('../../assets/Paomedia-Small-N-Flat-Book.svg') no-repeat;
+    background-size: 127% 107%;
+    height: 100%;
+    background-position: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding-top: 5px;
+    padding-bottom: 40px;
+    padding-right: 5px;
+}
+
+.bookDisplay__field {
+    padding-left: 25%;
+    text-align: center;
+}
+
+
+.bookDisplay__field--date {
+    flex-grow: 1;
+}
+
+.bookDisplay__field--title {
+    flex-grow: 4;
+}
+.bookDisplay__field--author {
+    flex-grow: 1;
+}

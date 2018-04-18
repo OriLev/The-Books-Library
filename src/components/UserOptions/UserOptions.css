@@ -1,0 +1,29 @@
+.optionsContainer {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+.optionsList {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.addBookButton {
+    height: 4rem;
+    width: 4rem;
+    border-radius: 2rem;
+    border: solid rgba(190, 190, 190, 1) 1px;
+    background: url('../../assets/plus.svg') no-repeat;
+    background-size: 60%;
+    background-position: center;
+}
+
+.addBookButton:hover {
+    cursor: pointer;
+    background-color: aquamarine;
+}
+
+.addBookButton:active {
+    background-color: burlywood;
+}

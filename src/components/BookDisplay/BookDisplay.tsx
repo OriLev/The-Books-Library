@@ -7,8 +7,16 @@ export const BookDisplay = ({ book }: { book: Book }) => {
     return (
         <div className="bookDisplay">
             <div className="bookFunctions">
-                <input className="pressable bookFunctions__function bookFunctions__function--edit" type="button"/>
-                <input className="pressable bookFunctions__function bookFunctions__function--delete" type="button"/>
+                <input 
+                    title="edit book" 
+                    className="pressable bookFunctions__function bookFunctions__function--edit" 
+                    type="button"
+                />
+                <input 
+                    title="delete book" 
+                    className="pressable bookFunctions__function bookFunctions__function--delete" 
+                    type="button"
+                />
             </div>
             <div className="bookFields">
                 <h5 className="bookFields__field bookFields__field--date"><i>{publicationDate}</i></h5>

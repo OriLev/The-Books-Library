@@ -9,7 +9,6 @@ export interface Book {
 }
 
 export class BooksStore {
-    DELIMINATOR = '#';
     books: Book[] = [];
     constructor() {
         fetch('http://192.168.1.16:8080/books.json', {

@@ -17,6 +17,7 @@
     background: url('../../assets/plus.svg') no-repeat;
     background-size: 60%;
     background-position: center;
+    box-shadow: 3px 0px 15px 4px rgba(0, 0, 255, .2);
 }
 
 .addBookButton:hover {

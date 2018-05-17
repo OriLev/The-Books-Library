@@ -1,0 +1,22 @@
+.bookFields {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.bookFields__field {
+    text-align: center;
+}
+
+.bookFields__field--date {
+    flex-grow: 1;
+}
+
+.bookFields__field--title {
+    flex-grow: 4;
+}
+.bookFields__field--author {
+    flex-grow: 1;
+}

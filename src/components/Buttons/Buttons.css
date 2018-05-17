@@ -1,0 +1,64 @@
+.addBookButton {
+    height: 4rem;
+    width: 4rem;
+    border-radius: 2rem;
+    border: solid rgba(190, 190, 190, 1) 1px;
+    background: url('../../assets/plus.svg') no-repeat;
+    background-size: 60%;
+    background-position: center;
+    box-shadow: 3px 0px 15px 4px rgba(0, 0, 255, .2);
+}
+
+.addBookButton:hover {
+    background-color: aquamarine;
+    background-size: 60%;
+}
+
+.addBookButton:active {
+    background-color: burlywood;
+    background-size: 75%;
+}
+
+.deleteBookButton {
+    background: url('../../assets/delete.svg') no-repeat;
+    background-size: 70%;
+    background-position: center;
+}
+
+.editBookButton {
+    background: url('../../assets/edit.svg') no-repeat;
+    background-size: 70%;
+    background-position: center;
+}
+
+.okButton {
+    background: url('../../assets/ok.svg') no-repeat;
+    background-size: 70%;
+    background-position: center;
+}
+
+.cancelButton {
+    background: url('../../assets/cancel.svg') no-repeat;
+    background-size: 70%;
+    background-position: center;
+}
+
+.deleteBookButton:hover,
+.editBookButton:hover,
+.okButton:hover,
+.cancelButton:hover {
+    background-size: 80%;
+}
+
+.deleteBookButton:active,
+.editBookButton:active,
+.okButton:active,
+.cancelButton:active {
+    background-color: burlywood;
+}
+
+.okButton:disabled {
+    background: url('../../assets/ok - disabled.svg') no-repeat;
+    background-size: 70%;
+    background-position: center;
+}

@@ -1,0 +1,29 @@
+.bookForm__field {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.bookForm__field__label {
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+.bookForm__field__message {
+    height: 2em;
+    padding: 5px 0;
+    color: red;
+}
+
+.bookForm__field__input {
+    height: 2em;
+    border: none;
+}
+
+.bookForm__field__input--valid {
+    box-shadow: 0px 0px 15px 1px green;
+}
+
+.bookForm__field__input--inValid {
+    box-shadow: 0px 0px 1px 1px red;
+}

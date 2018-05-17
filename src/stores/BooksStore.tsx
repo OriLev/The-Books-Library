@@ -1,49 +1,85 @@
-import { decorate, observable, action } from 'mobx';
-import { AppStore } from './AppStore';
+import { observable, action } from 'mobx';
+import * as uuidv4 from 'uuid/v4';
 
-export interface Book {
-    id: number;
-    author: string;
-    publicationDate: string;
-    title: string;
-    coverImgURL: string;
-}
+import { AppStore } from './AppStore';
+import { getBookList } from '../util/api';
 
 export class BooksStore {
     appStore: AppStore;
+
+    @observable
     books: Book[] = [];
+
     constructor(appStore: AppStore) {
         this.appStore = appStore;
-        fetch('http://192.168.1.16:8080/books.json', {
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            this.books = data.books;
+        getBookList().then(books => {
+            books.forEach((bookData: EditableFields) => {
+                const book = this.buildNewBook(bookData);
+                this.addBook(book);
+            });
         });
         this.findBook = this.findBook.bind(this);
-        this.deleteBook = this.deleteBook.bind(this);
+        this.findBookIndex = this.findBookIndex.bind(this);
     }
 
-    findBook(id: number) {
-        return this.books.findIndex((element) => {
-            return element.id === id;
-        });
+    findBook(key: 'id'|'title', value: string) {
+        const bookIndex = this.findBookIndex(key, value);
+        return ((bookIndex > -1) ? this.books[bookIndex] : null);
+    }
+
+    findBookIndex(key: 'id'|'title', value: string) {
+        if (key === 'title') {
+            value = this.getDBTitle(value);
+        }
+        return this.books.findIndex((element) => element[key] === value);
+    }
+
+    getDBTitle(title: string) {
+        const formattedTitle = title.split(' ')
+        .filter(word => word !== '')
+        .map(word => word.replace(/\W|\d|_/g , ''))
+        .join(' ')
+        .toLowerCase();
+        return formattedTitle;
+    }
+
+    getDisplayTitle(title: string) {
+        if (title === '') {
+            return '';
+        }
+        return title.split(' ').map(word => (word[0].toUpperCase() + word.slice(1))).join(' ');
     }
     
-    deleteBook(id: number) {
-        // const books = this.books.
-        const bookRef = this.findBook(id);
-        this.books.splice(bookRef, 1);
-        //  = [...this.books.slice(0, bookRef), ...this.books.slice(bookRef)];
+    @action.bound
+    addBook(book: Book) {
+        book.title = this.getDBTitle(book.title); 
+        this.books.push(book);
+    }
+
+    @action.bound
+    buildNewBook(bookData: EditableFields): Book {
+        const { title, author, publicationDate } = bookData;
+        return { 
+            title,
+            author, 
+            publicationDate, 
+            id: uuidv4(),
+        };
+    }
+
+    @action.bound
+    updateBook({editedBookId, newBookData}: {editedBookId: string, newBookData: EditableFields}) {
+        const {title, author, publicationDate} = newBookData;
+        const dBTitle = this.getDBTitle(title);
+        const bookIndex = this.findBookIndex('id', editedBookId);
+        const newBook = Object.assign(this.books[bookIndex], {title: dBTitle, author, publicationDate});
+        this.books.splice(bookIndex, 1, newBook);
+    }
+
+    @action.bound
+    deleteBook(book: Book) {
+        const { id } = book;
+        const bookIndex = this.findBookIndex('id', id);
+        this.books.splice(bookIndex, 1);
     }
 }
-
-decorate(BooksStore, {
-    books: observable,
-    deleteBook: action,
-});

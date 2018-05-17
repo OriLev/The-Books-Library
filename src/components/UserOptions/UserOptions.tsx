@@ -1,30 +1,27 @@
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
-import { AppStore } from '../../stores/AppStore';
+import { inject } from 'mobx-react';
 
-// import { modalsStore } from '../../stores/ModalsStore';
+import { ConnectedComponent } from '../../util/ConnectedComponent';
+import { AppStore } from '../../stores/AppStore';
+import { AddBookButton } from '../Buttons/Buttons';
+
 import './UserOptions.css';
 
-interface UserOptionsProps {
-    appStore?: AppStore;
-}
-
-export const UserOptions = inject('appStore')(observer(({appStore}: UserOptionsProps) => {
-    if (appStore) {
+@inject('appStore')
+export class UserOptions extends ConnectedComponent<{}, {appStore: AppStore}> {
+    render() {
+        const { userInteractionStore } = this.connected.appStore;
         return (
             <div className="optionsContainer">
-              <ul className="optionsList">
-                  <li title="add a book" className="optionsList__option">
-                      <input type="button" className="addBookButton" onClick={appStore.modalsStore.toggleAddBookModal}/>
-                  </li>
-                  {/* <li className="optionsList__option">
-                      <input type="text" placeholder="what book or author would you like to search for?"/>
-                  </li> */}
-              </ul>
-              
+                <ul className="optionsList">
+                    <li title="add a book" className="optionsList__option">
+                        <AddBookButton 
+                            action={userInteractionStore.promptAddBookModal}
+                            title="Add new book" 
+                        />
+                    </li>
+                </ul>             
             </div>
-          );
-    } else {
-        return null;
-    }
-}));
+        );
+    } 
+}

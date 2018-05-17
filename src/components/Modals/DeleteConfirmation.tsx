@@ -1,50 +1,47 @@
 import * as React from 'react';
-import * as ReactModal from 'react-modal';
 import { observer, inject } from 'mobx-react';
+
+import { ConnectedComponent } from '../../util/ConnectedComponent';
 import { AppStore } from '../../stores/AppStore';
-import { ModalsStore } from '../../stores/ModalsStore';
+import { PromptModal } from './PromptModal';
+import { ModalHeader } from './ModalHeader';
+import { ModalFooter } from './ModalFooter';
+import { DeleteBookButton, CancelButton } from '../Buttons/Buttons';
 
-interface DeleteConfirmationProps {
-    appStore?: AppStore;
-}
+import './ModalStyles.css';
 
-export const DeleteConfirmation = inject('appStore')(observer(({appStore}: DeleteConfirmationProps) => {
-    // if (appStore) {
-        const { modalsStore }: {modalsStore: ModalsStore} = appStore!;
-        const bookTitle = modalsStore.bookToDelete!;
+@inject('appStore')
+@observer
+export class DeleteConfirmation extends ConnectedComponent<{}, {appStore: AppStore}> {
+    render() {
+        const { userInteractionStore } = this.connected.appStore;
+        const modalProps = {
+            isOpen: userInteractionStore.deleteConfirmationShowing,
+            onRequestClose: userInteractionStore.denyDeletion,
+        };
+
+        const { title } = userInteractionStore.currentBook;
+        const headerMessage = `Are you sure you want to delete "${title}"?`;
+
+        const deleteButtonProps = {
+            className: 'footerButton',
+            title: 'Delete book',
+            action: userInteractionStore.confirmDeletion,
+        };
+        const cancelButtonProps = {
+            className: 'footerButton', 
+            title: 'Cancel deletion',
+            action: userInteractionStore.denyDeletion,
+        };          
+
         return (
-            <ReactModal
-                isOpen={modalsStore.deleteConfirmationShowing}
-                onRequestClose={modalsStore.denyDeletion}
-                // appElement={this}
-                shouldCloseOnOverlayClick={false}
-                shouldCloseOnEsc={false}
-                shouldReturnFocusAfterClose={false}
-                style={{
-                    content: {
-                        width: '300px',
-                        height: '200px',
-                        margin: '10% auto',
-                        fontWeight: 'bolder',
-                    }
-                }}
-            >
-                Are you sure you want to delete {modalsStore.bookToDelete ? modalsStore.bookToDelete.title : null}?
-                <input type="button" className="addBookButton" onClick={modalsStore.denyDeletion} />
-                <input
-                    type="button"
-                    className="pressable bookFunctions__function bookFunctions__function--delete"
-                    onClick={(e) => {
-                        if (modalsStore.bookToDelete) {
-                            const { id } = modalsStore.bookToDelete;
-                            return modalsStore.confirmDeletion(id);
-                        }
-                    }}
-                />
-            </ReactModal>
+            <PromptModal {...modalProps} >
+                <ModalHeader message={headerMessage} />
+                <ModalFooter> 
+                    <DeleteBookButton {...deleteButtonProps}/> 
+                    <CancelButton {...cancelButtonProps}/>
+                </ModalFooter>
+            </PromptModal>
         );
-    // } else {
-    //     return null;
-    // }
-
-}));
+    }
+}
